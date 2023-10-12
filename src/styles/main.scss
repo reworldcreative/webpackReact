@@ -1,0 +1,25 @@
+@import "fonts";
+
+$base-color: #c35467;
+
+body {
+  background-color: $base-color;
+  font-family: "Effra-Medium";
+}
+
+h1 {
+  display: flex;
+}
+
+h2 {
+  display: flex;
+}
+h3 {
+  display: flex;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 20px;
+}

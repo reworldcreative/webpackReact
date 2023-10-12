@@ -1,0 +1,31 @@
+{
+  "name": "fontfacegen-webpack-plugin",
+  "version": "1.3.2",
+  "description": "A plugin for webpack that takes a ttf or otf font file and generates eot, ttf, svg, woff and woff2 files for the web.",
+  "main": "fontfacegen-webpack-plugin.js",
+  "types": "fontfacegen-webpack-plugin.d.ts",
+  "author": {
+    "name": "Daniel Araujo",
+    "email": "contact@daniel-araujo.pt"
+  },
+  "bugs": {
+    "url": "https://github.com/daniel-araujo/fontfacegen-webpack-plugin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daniel-araujo/fontfacegen-webpack-plugin.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "webpack",
+    "webpack-plugin",
+    "fontfacegen"
+  ],
+  "devDependencies": {
+    "fontfacegen": "^0.4.0",
+    "fs-extra": "^9.0.1",
+    "mocha": "^8.2.1",
+    "touch": "^3.1.0",
+    "webpack": "^4.44.2"
+  }
+}
