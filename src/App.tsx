@@ -1,5 +1,6 @@
 import React from "react";
 import wbp from "./img/webpack.jpg";
+import bl from "./img/icons/search-icon.svg";
 import PictureComponent from "../plugins/PictureComponent";
 
 // const webpackImage = <HTMLInputElement>document.getElementById("webpackimg");
@@ -16,6 +17,7 @@ export default function App() {
         alt="Webpack Image"
         className="wpClass-img"
       />
+      <img className="bl" id="wpackimg" src={bl} alt="Webpack Image" />
     </>
   );
 }

@@ -12,7 +12,7 @@ const webpack = require("webpack");
 
 module.exports = {
   mode: isProduction ? "production" : "development",
-  devtool: "inline-source-map",
+  devtool: isProduction ? false : "inline-source-map",
   entry: {
     filename: path.resolve(__dirname, "src/index.tsx"),
   },
@@ -77,8 +77,9 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "[name].[ext]",
+              name: "[path][name].[ext]",
               outputPath: "img/",
+              context: path.resolve(__dirname, "src/img"),
             },
           },
         ],
@@ -126,12 +127,65 @@ module.exports = {
         implementation: ImageMinimizerPlugin.imageminMinify,
         options: {
           plugins: [
-            ["gifsicle", { optimizationLevel: 5 }],
-            ["jpegtran", { progressive: true }],
-            ["optipng", { optimizationLevel: 5 }],
-            ["svgo", { plugins: [{ removeViewBox: false }] }],
+            [
+              "gifsicle",
+              {
+                optimizationLevel: 5,
+                // interlaced: true,
+                // colors: 256,
+                // lossy: 80,
+              },
+            ],
+            [
+              "jpegtran",
+              {
+                progressive: true,
+                arithmetic: false,
+                copy: "none",
+                perfect: false,
+              },
+            ],
+            [
+              "optipng",
+              {
+                optimizationLevel: 5,
+                buffer: 4096,
+                // bitDepthReduction: true,
+                // colorTypeReduction: true,
+                // paletteReduction: true,
+                // interlaced: true,
+                verbose: false,
+                idat: 3,
+              },
+            ],
+            [
+              "svgo",
+              {
+                plugins: [
+                  {
+                    name: "preset-default",
+                    params: {
+                      overrides: {
+                        removeViewBox: false,
+                        //   removeDimensions: true,
+                        // removeAttrs: { attrs: '(stroke|fill)' },
+                        // cleanupIDs: true,
+                        // addAttributesToSVGElement: {
+                        //   params: {
+                        //     attributes: [
+                        //       { xmlns: "http://www.w3.org/2000/svg" },
+                        //     ],
+                        //   },
+                        // },
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
           ],
         },
+        // filename: "img/[name][ext]",
       },
     }),
     new ImageminWebpWebpackPlugin(),
