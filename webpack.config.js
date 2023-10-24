@@ -9,6 +9,7 @@ const ImageminWebpWebpackPlugin = require("imagemin-webp-webpack-plugin");
 const ReplaceImgWithPicturePlugin = require("./plugins/replace-img-with-picture");
 const HtmlCriticalWebpackPlugin = require("html-critical-webpack-plugin");
 const webpack = require("webpack");
+const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 module.exports = {
   mode: isProduction ? "production" : "development",
@@ -19,7 +20,10 @@ module.exports = {
   output: {
     filename: "[name][contenthash].js",
     path: path.resolve(__dirname, "dist"),
-    assetModuleFilename: "img/[name][ext]",
+    // assetModuleFilename: "img/[name][ext]",
+    assetModuleFilename: (pathData) => {
+      return `img/${pathData.filename.split("src/img")[1].slice(1)}`;
+    },
     // clean: true,
   },
   performance: {
@@ -73,16 +77,23 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|jpeg|svg|gif)$/i,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "[path][name].[ext]",
-              outputPath: "img/",
-              context: path.resolve(__dirname, "src/img"),
-            },
+        type: "asset/resource",
+        generator: {
+          filename: (pathData) => {
+            return `img/${pathData.filename.split("src/img")[1].slice(1)}`;
           },
-        ],
+          // outputPath: "img/",
+        },
+        // use: [
+        //   {
+        //     loader: "file-loader",
+        //     options: {
+        //       name: "[path][name].[ext]",
+        //       outputPath: "img/",
+        //       context: path.resolve(__dirname, "src/img"),
+        //     },
+        //   },
+        // ],
       },
 
       {
@@ -217,6 +228,19 @@ module.exports = {
       moment: "moment",
       classNames: "classnames",
       MaterialUIIcons: "@material-ui/icons",
+    }),
+    new FaviconsWebpackPlugin({
+      persistentCache: true,
+      logo: "./src/img/webpack.jpg",
+      prefix: "img/",
+      emitStats: false,
+
+      favicons: {
+        appName: "webpack react",
+        appDescription: "webpack react application",
+        developerURL: null,
+        background: "rgba(0, 0, 0, 0)",
+      },
     }),
   ],
 };
