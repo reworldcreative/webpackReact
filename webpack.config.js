@@ -38,6 +38,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "dist"),
     },
+    historyApiFallback: true,
   },
 
   module: {
@@ -200,15 +201,17 @@ module.exports = {
       },
     }),
     new ImageminWebpWebpackPlugin(),
-    new HtmlCriticalWebpackPlugin({
-      base: path.join(path.resolve(__dirname), "dist"),
-      src: "index.html",
-      dest: "index.html",
-      // css: ["./src/styles/main.scss"],
-      inline: true,
-      minify: true,
-      extract: false,
-    }),
+    isProduction
+      ? new HtmlCriticalWebpackPlugin({
+          base: path.join(path.resolve(__dirname), "dist"),
+          src: "index.html",
+          dest: "index.html",
+          // css: ["./src/styles/main.scss"],
+          inline: true,
+          minify: true,
+          extract: false,
+        })
+      : false,
 
     new webpack.ProvidePlugin({
       $: "jquery",
