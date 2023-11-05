@@ -10,6 +10,7 @@ const ReplaceImgWithPicturePlugin = require("./plugins/replace-img-with-picture"
 const HtmlCriticalWebpackPlugin = require("html-critical-webpack-plugin");
 const webpack = require("webpack");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: isProduction ? "production" : "development",
@@ -26,6 +27,30 @@ module.exports = {
     },
     // clean: true,
   },
+
+  optimization: isProduction
+    ? {
+        minimize: true,
+        splitChunks: {
+          chunks: "all",
+        },
+        usedExports: true,
+        minimizer: [
+          new TerserPlugin({
+            terserOptions: {
+              compress: {
+                drop_console: true,
+              },
+              output: {
+                comments: false,
+                beautify: false,
+              },
+            },
+            extractComments: false,
+          }),
+        ],
+      }
+    : {},
   performance: {
     hints: false,
     maxAssetSize: 512000,
@@ -45,19 +70,40 @@ module.exports = {
     rules: [
       {
         test: /\.(jsx|js)?$/,
-        use: "babel-loader",
+        // use: "babel-loader",
+        use: {
+          loader: "babel-loader",
+          options: {
+            compact: isProduction ? true : false,
+          },
+        },
         exclude: /node_modules/,
       },
       {
         test: /\.(tsx|ts)?$/,
-        use: ["babel-loader", "ts-loader"],
+        // use: ["babel-loader", "ts-loader"],
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              compact: isProduction ? true : false,
+            },
+          },
+          "ts-loader",
+        ],
         exclude: /node_modules/,
       },
       {
         test: /\.(css|scss)$/,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader",
+          // "css-loader",
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: isProduction ? true : false,
+            },
+          },
           {
             loader: "postcss-loader",
             options: {
@@ -66,7 +112,13 @@ module.exports = {
               },
             },
           },
-          "sass-loader",
+          // "sass-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: isProduction ? true : false,
+            },
+          },
         ],
       },
       {
@@ -225,6 +277,11 @@ module.exports = {
       ReduxToolkit: "@reduxjs/toolkit",
       ReactQueryDevtools: "react-query/devtools",
       ReactRouterConfig: "react-router-config",
+      useEffect: ["react", "useEffect"],
+      useState: ["react", "useState"],
+      useContext: ["react", "useContext"],
+      useMemo: ["react", "useMemo"],
+      useRef: ["react", "useRef"],
       cssModule: "react-css-modules",
       Promise: "bluebird",
       axios: "axios",
@@ -234,7 +291,8 @@ module.exports = {
     }),
     new FaviconsWebpackPlugin({
       persistentCache: true,
-      logo: "./src/img/webpack.jpg",
+      // logo: "./src/img/webpack.jpg",
+      logo: "./src/favicon.jpg",
       prefix: "img/",
       emitStats: false,
 
@@ -243,6 +301,22 @@ module.exports = {
         appDescription: "webpack react application",
         developerURL: null,
         background: "rgba(0, 0, 0, 0)",
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: false,
+          coast: false,
+          favicons: true,
+          windows: true,
+          yandex: false,
+        },
+
+        // sizes: {
+        //   android: [36, 48, 72, 96, 144, 192, 512],
+        //   appleIcon: [57, 60, 72, 76, 114, 120, 144, 152, 180],
+        //   favicons: [16, 32, 96],
+        //   windows: [16, 32, 48, 62],
+        // },
       },
     }),
   ],

@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development --config webpack.config.js",
-    "build": "webpack --mode production --config webpack.config.js",
+    "dev": "webpack --node-env=development --config webpack.config.js",
+    "build": "webpack --node-env=production --config webpack.config.js",
     "server": "npx webpack serve --mode development"
   },
   "browserslist": [
@@ -58,6 +58,7 @@
     "imagemin-svgo": "^10.0.1",
     "imagemin-webp-webpack-plugin": "^3.3.6",
     "mini-css-extract-plugin": "^2.7.6",
+    "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
     "webpack-dev-server": "^4.15.1"
