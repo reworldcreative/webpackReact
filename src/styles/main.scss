@@ -1,26 +1,24 @@
 @import "fonts";
 
-$base-color: #c35467;
+@import "normalize";
+@import "variables";
+@import "rfs/scss";
 
-body {
-  background-color: $base-color;
-  font-family: "Effra-Medium";
-  background-image: url("../img/logo/React-icon.png");
-}
+.visibility-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
 
-h1 {
-  display: flex;
-}
+  outline: 0;
+  outline-offset: 0;
 
-h2 {
-  display: flex;
-}
-h3 {
-  display: flex;
-}
-
-p {
-  font-size: 16px;
-  line-height: 1.5;
-  margin: 20px;
+  pointer-events: none;
+  /* visibility: hidden; */
 }

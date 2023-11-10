@@ -1,0 +1,14 @@
+@import "rfs/scss";
+
+$base-color: #c35467;
+$main: #ffffff;
+
+@mixin Font($font-size: 14px, $font-weight: 700) {
+  font-family: sans-serif;
+  @include font-size($font-size);
+  font-style: normal;
+  font-weight: $font-weight;
+  line-height: normal;
+  color: $main;
+  margin: 0px;
+}
